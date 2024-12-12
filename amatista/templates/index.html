@@ -1,44 +1,118 @@
-<!doctype html>
-<html lang="en">
-    <head>
-        <title>Hola Mundo</title>
-        <!-- Required meta tags -->
-        <meta charset="utf-8" />
-        <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, shrink-to-fit=no"
-        />
+{% extends 'base.html' %}
+{% load static %}
+{% block titulo %}
+<title>Inicio</title>
+{% endblock %}
+{% block navegacion %}
+{% include 'navegacion.html' %}
+{% endblock %}
+{% block contenido %}
+<!-- Fondo oscuro para toda la página -->
+<style>
+    body {
+        background-color: #121212; /* Color de fondo oscuro */
+        color: #ffffff; /* Texto claro para contraste */
+    }
 
-        <!-- Bootstrap CSS v5.2.1 -->
-        <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-            crossorigin="anonymous"
-        />
-    </head>
+    /* Estilos para el texto de bienvenida */
+    .card-img-overlay h1, .card-img-overlay p {
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    }
 
-    <body>
-        <header>
-            <!-- place navbar here -->
-        </header>
-        <main>
-            <h1> Hola Mundo </h1>
-        </main>
-        <footer>
-            <!-- place footer here -->
-        </footer>
-        <!-- Bootstrap JavaScript Libraries -->
-        <script
-            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-            integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-            crossorigin="anonymous"
-        ></script>
+    /* Botones estilizados */
+    .btn-outline-light {
+        border-color: #ffffff;
+        color: #ffffff;
+    }
 
-        <script
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
-            integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
-            crossorigin="anonymous"
-        ></script>
-    </body>
-</html>
+    .btn-outline-light:hover {
+        background-color: #ffffff;
+        color: #000000;
+    }
+
+    /* Carrusel */
+    .carousel-item img {
+        filter: brightness(80%); /* Hacer que las imágenes sean un poco más oscuras */
+    }
+
+    .carousel-caption h5 {
+        color: #ffffff;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    }
+
+    /* Ajustes adicionales para asegurar contraste */
+    .navbar, .dropdown-menu {
+        background-color: #1c1c1c; /* Oscurece la barra de navegación y dropdown */
+    }
+
+    .dropdown-item {
+        color: #ffffff;
+    }
+
+    .dropdown-item:hover {
+        background-color: #343a40; /* Hover más claro para mejor visualización */
+    }
+</style>
+<!-- Banner con imagen de fondo y texto de bienvenida -->
+<div class="card text-bg-dark">
+    <img class="card-img" src="{% static 'img/banner.jpg' %}" alt="Librería" style="object-fit: cover; height: 100vh;">
+    <div class="card-img-overlay d-flex flex-column justify-content-center align-items-center" style="background: rgba(0, 0, 0, 0.5);">
+        <h1 class="display-4 text-light text-center" style="font-weight: 700; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">
+            ¡Bienvenidos a Nuestra Librería!
+        </h1>
+        <p class="lead text-light text-center" style="font-size: 1.5rem; max-width: 600px;">
+            Encuentra los mejores productos, desde clásicos hasta los más vendidos, todos en un solo lugar.
+        </p>
+        {% comment %} <a href="{% url 'apps.productos:listar_productos' %}" class="btn btn-outline-light btn-lg mt-3">Explorar productos</a> {% endcomment %}
+    </div>
+</div>
+
+<!-- Sección de carrusel de productos destacados -->
+<section style="margin-top: 5%;">
+    <div class="container">
+        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
+                    aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+                    aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+                    aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img class="d-block mx-auto" style="width: 25%; height: auto;" 
+                        src="{% static 'img/img_productos/el_principito.jpeg' %}" alt="El Principito">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>El Principito</h5>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img class="d-block mx-auto" style="width: 25%; height: auto;" 
+                        src="{% static 'img/img_productos/harry_potter_1.jpg' %}" alt="Harry Potter y la piedra filosofal">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Harry Potter y la Piedra Filosofal</h5>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img class="d-block mx-auto" style="width: 25%; height: auto;" 
+                        src="{% static 'img/img_productos/el_hobbit.jpg' %}" alt="El Hobbit">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>El Hobbit</h5>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+                data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Anterior</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+                data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Siguiente</span>
+            </button>
+        </div>
+    </div>
+</section>
+{% endblock %}
