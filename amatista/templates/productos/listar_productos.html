@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+
+{% block contenido %}
+
+<div class="p-3 mb-2 bg-subtle d-flex flex-wrap" style="background-color: #FADADD;">
+    {% for producto in productos %}
+
+        <div class="card border border-primary text-bg-primary m-3" style="max-width: 18rem; border-color: #E8A8C3; background-color: #FFE5D9;">
+            <img src="{{ producto.imagen.url }}" class="card-img-top" alt="..." style="border-radius: 8px;">
+            <div class="card-body" style="color: #333333;">
+                <h5 class="card-title" style="color: #E8A8C3;">{{ producto.nombre }}</h5>
+                <p class="card-text">{{ producto.categoria }}</p>
+                <p class="card-text">{{ producto.material }}</p>
+                {% if user.is_staff %}    
+                    <p class="card-text" style="color: #333333;">Costo: ${{ producto.costo|formato_moneda }}</p>
+                {% endif %}
+                <p class="card-text" style="color: #D8F3DC;">Precio: ${{ producto.costo|multiply:1.25|formato_moneda }}</p>
+                {% comment %} <a href="{% url 'producto' producto.id %}" class="btn" style="background-color: #EAD7F2; color: #FFF5E4;">Abrir producto</a> --> {% endcomment %}
+            </div>
+        </div>
+
+    {% empty %}
+        <h1 style="color: #BDBDBD;">No hay registros</h1>
+    {% endfor %}
+</div>
+
+{% endblock %}

@@ -1,74 +1,76 @@
 {% load static %}
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-        <!-- Logo -->
-        <a href="{% url 'index' %}">
-            <img src="{% static 'img/logo.png' %}" alt="Logo" width="100" height="100">
-        </a>
+<nav class="navbar navbar-expand-lg" style="background-color: #FFE5D9;">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#" style="color: #E8A8C3; font-size: 1.5rem;">
+      <svg width="200" height="80" xmlns="http://www.w3.org/2000/svg" style="background: none;">
+        <rect width="100%" height="100%" fill="none"/>
+        <text x="10" y="50" font-family="Cursive" font-size="30" fill="#D5006D" font-style="italic">Amatista</text>
+        <circle cx="180" cy="40" r="20" fill="#E91E63" />
+        <text x="180" y="45" font-family="Arial" font-size="15" fill="white" text-anchor="middle">💎</text>
+      </svg>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
+            data-bs-target="#navbarSupportedContent" 
+            aria-controls="navbarSupportedContent" 
+            aria-expanded="false" 
+            aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon" style="filter: invert(50%);"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'index' %}" style="color: #FFFFFF;">Home</a>
+        </li>
+        {% if not user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'apps.productos:listar_productos' %}" style="color: #FFB6C1;">Ver productos</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'apps.blog_auth:iniciar_sesion' %}" style="color: #FFB6C1;">Iniciar Sesión</a>
+        </li>
+        {% endif %}
+
+        {% if user.is_authenticated %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #FFB6C1;">
+            {{ user.username }}
+          </a>
+          <ul class="dropdown-menu" style="background-color: #FFE4E1;">
+            <li><a class="dropdown-item" href="{% url 'apps.blog_auth:editar_perfil' user.pk %}" style="color: #FF69B4;">Modificar Perfil</a></li>
+            <li>
+              <form method="post" action="{% url 'apps.blog_auth:cerrar_sesion' %}">
+                {% csrf_token %}
+                <button type="submit" class="dropdown-item" style="color: #FF69B4;">Cerrar sesión</button>
+              </form>
+            </li>
+          </ul>
+        </li>
         
-        <!-- Botón para el menú en pantallas pequeñas -->
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #FF69B4;">
+            Productos
+          </a>
+          <ul class="dropdown-menu" style="background-color: #FADADD;">
+            <li><a class="dropdown-item" href="{% url 'apps.productos:listar_productos' %}" style="color: #333333;">Ver productos</a></li>
+          {% if user.is_staff %}
+            <li><a class="dropdown-item" href="{% url 'apps.productos:agregar_producto' %}" style="color: #BDBDBD;">Nuevo producto</a></li>
+            <li><hr class="dropdown-divider" style="border-color: #E8A8C3;"></li>
+            <li><a class="dropdown-item" href="{% url 'apps.productos:agregar_categoria' %}" style="color: #333333;">Agregar Categoría</a></li>
+            <li><a class="dropdown-item" href="{% url 'apps.productos:agregar_material' %}" style="color: #333333;">Agregar Material</a></li>
+          </ul>
+        </li>
+        {% endif %}
+        {% endif %}
 
-        <!-- Contenido del menú -->
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto">
-                <!-- Dropdown de productos -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="productosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        productos
-                    </a>
-                    {% comment %} <ul class="dropdown-menu" aria-labelledby="productosDropdown">
-                        <li><a class="dropdown-item" href="{% url 'apps.productos:listar_productos' %}">Listar todos los productos</a></li>
-                        {% for i in categorias %}
-                        <li><a class="dropdown-item" href="{% url 'apps.productos:listar_por_categoria' i.nombre %}">{{ i.nombre }}</a></li>
-                        {% endfor %}
-                    </ul> {% endcomment %}
-                </li>
+        <li class="nav-item">
+          {% comment %} <!-- <a class="nav-link active" aria-current="page" href="{% url 'about' %}" style="color: #E8A8C3;">Acerca de Nosotros</a> --> {% endcomment %}
+        </li>
+      </ul>
 
-                <!-- Opciones para colaboradores (solo staff) -->
-                {% if user.is_staff %}
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="colaboradorDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Colaborador
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="colaboradorDropdown">
-                        <li><a class="dropdown-item" href="{% url 'apps.productos:agregar_categoria' %}">Agregar categoría</a></li>
-                        <li><a class="dropdown-item" href="{% url 'apps.productos:agregar_libro' %}">Agregar libro</a></li>
-                    </ul>
-                </li>
-                {% endif %}
-            </ul>
-
-            <!-- Perfil de usuario y autenticación -->
-            <ul class="navbar-nav ms-auto">
-                {% if user.is_authenticated %}
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="{% static 'img/logo.png' %}" alt="perfil" width="40" height="40" class="rounded-circle me-2">
-                        {{ user.username }}
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                        <li><a class="dropdown-item" href="{% url 'apps.blog_auth:editar_perfil' user.pk %}">Modificar Perfil</a></li>
-                        <li>
-                            <form method="post" action="{% url 'apps.blog_auth:cerrar_sesion' %}">
-                                {% csrf_token %}
-                                <button type="submit" class="dropdown-item">Cerrar sesión</button>
-                            </form>
-                        </li>
-                    </ul>
-                </li>
-                {% else %}
-                {% comment %} <li class="nav-item">
-                    <a class="nav-link" href="{% url 'apps.blog_auth:registrarse' %}">Registrarse</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'apps.blog_auth:iniciar_sesion' %}">Iniciar Sesión</a>
-                </li> {% endcomment %}
-                {% endif %}
-            </ul>
-        </div>
+      <!-- <form class="d-flex" role="search">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" style="background-color: #FFF5E4; color: #BDBDBD;">
+        <button class="btn btn-outline-success" type="submit" style="background-color: #EAD7F2; color: #FFF5E4;">Search</button>
+      </form> -->
     </div>
+  </div>
 </nav>

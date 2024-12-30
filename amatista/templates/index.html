@@ -7,50 +7,22 @@
 {% include 'navegacion.html' %}
 {% endblock %}
 {% block contenido %}
-<!-- Fondo oscuro para toda la página -->
+<!-- Fondo claro para toda la página -->
 <style>
     body {
-        background-color: #121212; /* Color de fondo oscuro */
-        color: #ffffff; /* Texto claro para contraste */
+        background-color: #FFE4E1; /* Misty Rose */
+        color: #333333; /* Texto oscuro para contraste */
     }
 
     /* Estilos para el texto de bienvenida */
     .card-img-overlay h1, .card-img-overlay p {
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        text-shadow: 2px 2px 4px rgba(255, 182, 193, 0.7); /* Light Pink */
     }
 
     /* Botones estilizados */
     .btn-outline-light {
-        border-color: #ffffff;
-        color: #ffffff;
-    }
-
-    .btn-outline-light:hover {
-        background-color: #ffffff;
-        color: #000000;
-    }
-
-    /* Carrusel */
-    .carousel-item img {
-        filter: brightness(80%); /* Hacer que las imágenes sean un poco más oscuras */
-    }
-
-    .carousel-caption h5 {
-        color: #ffffff;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
-    }
-
-    /* Ajustes adicionales para asegurar contraste */
-    .navbar, .dropdown-menu {
-        background-color: #1c1c1c; /* Oscurece la barra de navegación y dropdown */
-    }
-
-    .dropdown-item {
-        color: #ffffff;
-    }
-
-    .dropdown-item:hover {
-        background-color: #343a40; /* Hover más claro para mejor visualización */
+        border-color: #FFB6C1; /* Light Pink */
+        color: #FFB6C1; /* Light Pink */
     }
 </style>
 <!-- Banner con imagen de fondo y texto de bienvenida -->
@@ -58,12 +30,12 @@
     <img class="card-img" src="{% static 'img/banner.jpg' %}" alt="Librería" style="object-fit: cover; height: 100vh;">
     <div class="card-img-overlay d-flex flex-column justify-content-center align-items-center" style="background: rgba(0, 0, 0, 0.5);">
         <h1 class="display-4 text-light text-center" style="font-weight: 700; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">
-            ¡Bienvenidos a Nuestra Librería!
+            ¡Bienvenidos a Nuestra Tienda de Joyas!
         </h1>
         <p class="lead text-light text-center" style="font-size: 1.5rem; max-width: 600px;">
             Encuentra los mejores productos, desde clásicos hasta los más vendidos, todos en un solo lugar.
         </p>
-        {% comment %} <a href="{% url 'apps.productos:listar_productos' %}" class="btn btn-outline-light btn-lg mt-3">Explorar productos</a> {% endcomment %}
+        <a href="{% url 'apps.productos:listar_productos' %}" class="btn btn-outline-light btn-lg mt-3">Explorar productos</a>
     </div>
 </div>
 
